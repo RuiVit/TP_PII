@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Add new Product</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.css">
+    <style type="text/css">
+        .wrapper{
+            width: 500px;
+            margin: 0 auto;
+        }
+    </style>
+</head>
+<body>
+    <div class="wrapper">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="page-header">
+                        <h2>| Create Product</h2>
+                    </div>
+                    <p>Please fill this form and submit to add a new Product to the database.</p>
+                    <form action="create" method="POST">
+                        <div class="form-group"> 
+                            {% csrf_token %}
+                            <div class="form-group">
+                                    <label for="id_product">New Product</label>
+                                    <input style="width: 550px;" type="text" id="id_product" name="product" class="form-control" required>
+                            </div>
+                                <div class="form-group">
+                                    <label for="id_supplier">Pick up Supplier</label>
+                                    <select id="id_supplier" name="supplier" multiple style="height: 220px; width: 550px;">
+                                        {% for key, value in suppliers %}
+                                            <option value="{{ key }}">{{ value }}</option>
+                                        {% endfor %}
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label for="id_product">Unit Price: </label>
+                                    <input style="width: 550px;" type="text" id="id_product" name="unit_price" class="form-control" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="id_product">Units in Stock: </label>
+                                    <input style="width: 550px;" type="text" id="id_product" name="units_in_stock" class="form-control" required>
+                                </div>
+                            <input type="submit" class="btn btn-primary" value="Submit">
+                            <a href="http://127.0.0.1:8000" class="btn btn-default">Cancel</a>
+                    </form>
+                </div>
+            </div>        
+        </div>
+    </div>
+</body>
+</html>

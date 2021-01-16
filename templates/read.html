@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>View Record</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.css">
+    <style type="text/css">
+        .wrapper{
+            width: 500px;
+            margin: 0 auto;
+        }
+    </style>
+</head>
+<body>
+    <div class="wrapper">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="page-header">
+                        <h1>| View Record</h1>
+                    </div>
+                    <div class="form-group">
+                        <label>Product Id</label>
+                        <p class="form-control-static">{{id}}</p>
+                    </div>
+                    <div class="form-group">
+                        <label>Product Name</label>
+                        <p class="form-control-static">{{name}}</p>
+                    </div>
+                    <div class="form-group">
+                        <label>Supplier</label>
+                        <p class="form-control-static">{{supplier}}</p>
+                    </div>
+                    <div class="form-group">
+                        <label>Unit Price</label>
+                        <p class="form-control-static">{{unit_price}} €</p>
+                    </div>
+                    <div class="form-group">
+                        <!-- Caso o stock seja zero apenas ira ser mostrado o aviso -->
+                        {% if stock_at_0 %}
+                        <label>Units in Stock</label>
+                        <span class="help-block" style="color: darkred;"> Stock is at 0</span>
+                        {% else %}
+                        <!-- Caso contrario, o stock ira ser mostrado -->
+                        <label>Units in Stock</label>
+                        <p class="form-control-static">{{units_in_stock}} {{name}}(s)</p>
+                        {% endif %}
+                    </div>
+                    <p><a href="http://127.0.0.1:8000" class="btn btn-primary">Back</a></p>
+                </div>
+            </div>        
+        </div>
+    </div>
+</body>
+</html>

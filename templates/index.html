@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Index</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.js"></script>
+    <style type="text/css">
+        .wrapper{
+            width: 1000px;
+            margin: 0 auto;
+        }
+        .page-header h2{
+            margin-top: 0;
+        }
+        table tr td:last-child a{
+            margin-right: 15px;
+        }
+    </style>
+    <script type="text/javascript">
+        $(document).ready(function(){
+            $('[data-toggle="tooltip"]').tooltip();   
+        });
+    </script> 
+</head>
+<body>
+    <div class="wrapper">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="page-header clearfix">
+                        <h2 class="pull-left">| Product Details</h2>
+                        <a href="create" class="btn btn-success pull-right">Add New Product</a>
+                    </div>
+                    <table class='table table-bordered table-striped'>
+                        <thead>
+                            <tr>
+                                <th>Id</th>
+                                <th>Product</th>
+                                <th>Supplier</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                                {% for key1, key2, key3 in suppliers %}
+                                <tr>
+                                    <td>{{key1}}</td>
+                                    <td>{{key2}}</td>
+                                    <td>{{key3}}</td>
+                                    <td>
+                                        <a href='read/{{key1}}' title='View Product' data-toggle='tooltip'><span style="color: dodgerblue;" class='glyphicon glyphicon-eye-open'></span></a>
+                                        <a href='update/{{key1}}' title='Update Product' data-toggle='tooltip'><span style="color:gold;" class='glyphicon glyphicon-pencil'></span></a>
+                                        <a href='delete/{{key1}}' title='Delete Product' data-toggle='tooltip'><span style="color:firebrick;" class='glyphicon glyphicon-trash'></span></a>
+                                        <a href='statistics/{{key1}}' title='Statistics' data-toggle='tooltip'><span style="color: forestgreen;" class=' glyphicon glyphicon-stats'></span></a>
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                        </tbody>                        
+                    </table>
+                </div>
+            </div>        
+        </div>
+        <span  class="help-block"> 8190479 / 8190448 / Nelson</span>
+    </div>
+</body>
+</html>

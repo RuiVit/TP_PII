@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Update Record</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.css">
+    <style type="text/css">
+        .wrapper{
+            width: 500px;
+            margin: 0 auto;
+        }
+    </style>
+</head>
+<body>
+    <div class="wrapper">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="page-header">
+                        <!-- ############################################ 
+                            Foi adicionado um "required" em cada <input>
+                            ############################################  -->
+                        <h2>| Update Product</h2>
+                    </div>
+                    <p>Please edit the input values and submit to update the product</p>
+                    <form action="" method="post">
+                        <input type="hidden" name="id" value="{{id}}"/>
+                        {% csrf_token %}
+                        <div class="form-group">
+                                <label>Product Id: <strong>{{id}}</strong></label>
+                        </div>
+                        <div class="form-group">
+                            <label>Product Name</label>
+                            <input type="text" name="product" id="id_product"class="form-control" value="{{productName}}" required>
+                            <span class="help-block"> Previous was: {{productName}}</span>
+                        </div>
+                        <div class="form-group">
+                                <label for="id_artist">Pick up Supplier</label>
+                                <span class="help-block">Previous was: {{supplierName}}</span>
+                                <select id="id_supplier" name="supplier" multiple style="height: 110px; width: 550px;">
+                                    {% for key, value in suppliers %}
+                                        {% if value == supplierName %}
+                                            <option value="{{ key }}" selected required>{{ value }} </option>
+                                        {% else %}
+                                            <option value="{{ key }}" required>{{ value }}</option>
+                                        {% endif %}    
+                                    {% endfor %}
+                                </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Unit Price</label>
+                            <input type="text" name="unit_price" id="id_product"class="form-control" value="{{unit_price}}" required>
+                            <span class="help-block">Previous was: {{unit_price}}</span>
+                        </div>
+                        <div class="form-group">
+                            <label>Units in Stock</label>
+                            <input type="text" name="units_in_stock" id="id_product"class="form-control" value="{{units_in_stock}}" required>
+                            <span class="help-block">Previous was: {{units_in_stock}}</span>
+                        </div>
+                        <input type="submit" class="btn btn-primary" value="Submit">
+                        <a href="http://127.0.0.1:8000" class="btn btn-default">Cancel</a>
+                    </form>
+                </div>
+            </div>        
+        </div>
+    </div>
+    {% if invalid_form %}
+    <script>alert("Invalid type buddy. Are you sure you got everything right?")</script>
+    <meta http-equiv="refresh" content="0" />
+    {% endif %}
+</body>
+</html>

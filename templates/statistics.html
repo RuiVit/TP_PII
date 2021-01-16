@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Statistics</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.css">
+    <style type="text/css">
+        .wrapper{
+            width: 500px;
+            margin: 0 auto;
+        }
+    </style>
+</head>
+<body>
+    <div class="wrapper">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="page-header">
+                        <h1>| View Statistics</h1>
+                    </div>
+                    <div class="form-group">
+                        <label>Product Name</label>
+                        <p class="form-control-static">{{name}}</p>
+                    </div>
+                    <div class="form-group">
+                        <label>Total value in stock without taxes</label>
+                        <p class="form-control-static">{{total_without_taxes}} €</p>
+                    </div>
+                    <div class="form-group">
+                        <label>Total value in stock with taxes</label>
+                        <p class="form-control-static">{{total_with_taxes}} €</p>
+                    </div>
+                    <span class="help-block"> Tax Value = {{tax}} % </span>
+                    
+                    <div class="form-group">
+                        <label>Total quantity ordered</label>
+                        <p class="form-control-static">{{total_quantity}} {{name}}(s)</p>
+                        
+                        {% if stock_at_0 %}
+                        <label>Total quantity ordered</label>
+                        <span class="help-block" style="color: darkred;"> Stock is at 0</span>
+                        {% endif %}
+                    </div>
+                    <p><a href="http://127.0.0.1:8000" class="btn btn-primary">Back</a></p>
+                </div>
+            </div>        
+        </div>
+    </div>
+</body>
+</html>
