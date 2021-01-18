@@ -15,7 +15,7 @@ class NameForm(forms.Form):
     unit_price = forms.DecimalField(label='UnitPrice', decimal_places=2) 
     units_in_stock = forms.IntegerField(label='UnitsInStock')  
 
-def index(request): #DONE
+def index(request): #DONE 
     product = Product()
     
     productDetails = product.list_product()
@@ -36,9 +36,15 @@ def read(request, key): #DONE
     
     supplierName = suppliers.get_supplierName(key)
 
+    if str(unitsInStock) == "0":
+        stock_at_0 = True
+    else:
+        stock_at_0 = False
+
     #do not change the lines bellow
     t = get_template('read.html')
-    html = t.render({'id':key,'name':productName,'supplier':supplierName, 'unit_price':unitPrice, 'units_in_stock':unitsInStock}) 
+    html = t.render({'id':key,'name':productName,'supplier':supplierName, \
+    'unit_price':unitPrice, 'units_in_stock':unitsInStock, 'stock_at_0':stock_at_0}) 
     return HttpResponse(html)
 
 def create(request): #DONE
@@ -106,7 +112,7 @@ def update(request, key, template_name='update.html'): #DONE
     return render(request, template_name, {'supplierName': supplierName, 
     'id':key,'productName': productName,'suppliers': allSuppliers,'unit_price':unitPrice, 'units_in_stock':unitsInStock})
     
-def statistics(request, key): #DONE
+def statistics(request, key): #DONE   
     tax = 23
 
     products = Product()
@@ -119,7 +125,16 @@ def statistics(request, key): #DONE
 
     totalQuantity = products.get_total_quantity(key)
 
+    unitsInStock = products.get_product_unitsInStock(key)
+    if str(unitsInStock) == "0":
+        stock_at_0 = True
+    else:
+        stock_at_0 = False
+    
     #do not change the lines bellow
+    #Foi tambem passado a variavel stock_at_0
     t = get_template('statistics.html')
-    html = t.render({'name':productName, 'total_without_taxes':totalWithoutTaxes, 'total_with_taxes':totalWithTaxes, 'total_quantity':totalQuantity, 'tax':tax}) 
+    html = t.render({'name':productName, 'total_without_taxes':totalWithoutTaxes, \
+    'total_with_taxes':totalWithTaxes, 'total_quantity':totalQuantity, 'tax':tax, 'stock_at_0':stock_at_0}) 
     return HttpResponse(html)
+

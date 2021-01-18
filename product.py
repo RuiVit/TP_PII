@@ -1,10 +1,8 @@
 import sqlite3
-import random
-import re
 
 class Product:
     def list_product(self):
-        connection = sqlite3.connect(r'C:\Users\RandomPenguin\Desktop\CRSI\PII\tp\mysite\db\Northwind.sqlite')
+        connection = sqlite3.connect(r'C:\Users\RandomPenguin\Desktop\CRSI\PII\TPPII\db\Northwind.sqlite')
         cursor = connection.cursor()
 
         cursor.execute('SELECT Product.Id, Product.ProductName, Supplier.companyname FROM Product INNER JOIN Supplier ON Product.SupplierId = Supplier.Id')
@@ -12,7 +10,7 @@ class Product:
         return info_product
 
     def create_product(self, nomeProduto, nomeSupplier, unitsPrice, unitsInStock):
-        connection = sqlite3.connect(r'C:\Users\RandomPenguin\Desktop\CRSI\PII\tp\mysite\db\Northwind.sqlite')
+        connection = sqlite3.connect(r'C:\Users\RandomPenguin\Desktop\CRSI\PII\TPPII\db\Northwind.sqlite')
         cursor = connection.cursor()
 
         cursor.execute("SELECT * fROM Product WHERE id = (SELECT MAX(id) FROM Product)")
@@ -23,21 +21,21 @@ class Product:
         connection.commit()
 
     def delete_product(self, key):
-        connection = sqlite3.connect(r'C:\Users\RandomPenguin\Desktop\CRSI\PII\tp\mysite\db\Northwind.sqlite')
+        connection = sqlite3.connect(r'C:\Users\RandomPenguin\Desktop\CRSI\PII\TPPII\db\Northwind.sqlite')
         cursor = connection.cursor()
         
         cursor.execute("DELETE FROM Product WHERE Id=?", (key,))
         connection.commit()
 
     def update_product(self, productName, supplierName, unit_price, units_in_stock, key): #DONE
-        connection = sqlite3.connect(r'C:\Users\RandomPenguin\Desktop\CRSI\PII\tp\mysite\db\Northwind.sqlite')
+        connection = sqlite3.connect(r'C:\Users\RandomPenguin\Desktop\CRSI\PII\TPPII\db\Northwind.sqlite')
         cursor = connection.cursor()
 
         cursor.execute("UPDATE Product SET ProductName=?, SupplierId=?, UnitPrice=?, UnitsInStock=? WHERE Id=?", (productName, supplierName, unit_price, units_in_stock, key))
         connection.commit()   
 
     def get_productName(self, key):
-        connection = sqlite3.connect(r'C:\Users\RandomPenguin\Desktop\CRSI\PII\tp\mysite\db\Northwind.sqlite')
+        connection = sqlite3.connect(r'C:\Users\RandomPenguin\Desktop\CRSI\PII\TPPII\db\Northwind.sqlite')
         cursor = connection.cursor()
 
         cursor.execute('SELECT ProductName FROM Product WHERE Id=?', (key,))
@@ -45,7 +43,7 @@ class Product:
         return productName[0]
 
     def get_product_unitPrice(self, key):
-        connection = sqlite3.connect(r'C:\Users\RandomPenguin\Desktop\CRSI\PII\tp\mysite\db\Northwind.sqlite')
+        connection = sqlite3.connect(r'C:\Users\RandomPenguin\Desktop\CRSI\PII\TPPII\db\Northwind.sqlite')
         cursor = connection.cursor()
 
         cursor.execute('SELECT UnitPrice FROM Product WHERE Id=?', (key,))
@@ -53,7 +51,7 @@ class Product:
         return unitPrice[0]
 
     def get_product_unitsInStock(self, key):
-        connection = sqlite3.connect(r'C:\Users\RandomPenguin\Desktop\CRSI\PII\tp\mysite\db\Northwind.sqlite')
+        connection = sqlite3.connect(r'C:\Users\RandomPenguin\Desktop\CRSI\PII\TPPII\db\Northwind.sqlite')
         cursor = connection.cursor()
 
         cursor.execute('SELECT UnitsInStock FROM Product WHERE Id=?', (key,))
@@ -61,8 +59,7 @@ class Product:
         return unitsInStock[0]
 
     def get_total_without_taxes(self, key):
-        #The total price of a product is equal to: unit price x units in stock
-        connection = sqlite3.connect(r'C:\Users\RandomPenguin\Desktop\CRSI\PII\tp\mysite\db\Northwind.sqlite')
+        connection = sqlite3.connect(r'C:\Users\RandomPenguin\Desktop\CRSI\PII\TPPII\db\Northwind.sqlite')
         cursor = connection.cursor()
 
         cursor.execute('SELECT UnitPrice FROM Product WHERE Id=?', (key,))
@@ -75,13 +72,12 @@ class Product:
         return total
 
     def get_total_including_taxes(self, key, tax):
-        #The total price of a product is equal to: totalWithoutTaxes x (1 + tax / 100)
         products = Product()
         total = (products.get_total_without_taxes(key) * (1 + tax / 100))
         return total
 
     def get_total_quantity(self, key):
-        connection = sqlite3.connect(r'C:\Users\RandomPenguin\Desktop\CRSI\PII\tp\mysite\db\Northwind.sqlite')
+        connection = sqlite3.connect(r'C:\Users\RandomPenguin\Desktop\CRSI\PII\TPPII\db\Northwind.sqlite')
         cursor = connection.cursor()
 
         cursor.execute('SELECT COUNT(Productid) FROM OrderDetail WHERE productid=?', (key,))
