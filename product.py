@@ -1,86 +1,122 @@
 import sqlite3
 
 class Product:
-    def list_product(self):
-        connection = sqlite3.connect(r'C:\Users\RandomPenguin\Desktop\CRSI\PII\TPPII\db\Northwind.sqlite')
-        cursor = connection.cursor()
+    def connect(self):
+        self.connection = sqlite3.connect(r'C:\Users\RandomPenguin\Desktop\CRSI\PII\TPPII\db\Northwind.sqlite')
+        self.cursor = self.connection.cursor()
 
-        cursor.execute('SELECT Product.Id, Product.ProductName, Supplier.companyname FROM Product INNER JOIN Supplier ON Product.SupplierId = Supplier.Id')
-        info_product = cursor.fetchall()
+    def disconnect(self):
+        self.connection.close()
+
+
+    def list_product(self):
+        self.connect()
+
+        self.cursor.execute('SELECT Product.Id, Product.ProductName, Supplier.companyname FROM Product INNER JOIN Supplier ON Product.SupplierId = Supplier.Id')
+        info_product = self.cursor.fetchall()
+
+        self.disconnect()
         return info_product
 
+
+
     def create_product(self, nomeProduto, nomeSupplier, unitsPrice, unitsInStock):
-        connection = sqlite3.connect(r'C:\Users\RandomPenguin\Desktop\CRSI\PII\TPPII\db\Northwind.sqlite')
-        cursor = connection.cursor()
+        self.connect()
 
-        cursor.execute("SELECT * fROM Product WHERE id = (SELECT MAX(id) FROM Product)")
-        lastid, = cursor.fetchall()
+        self.cursor.execute("SELECT * fROM Product WHERE id = (SELECT MAX(id) FROM Product)")
+        lastid, = self.cursor.fetchall()
         
-        cursor.execute("INSERT INTO Product \
+        self.cursor.execute("INSERT INTO Product \
             VALUES (?, ?, ?, 0, 0, ?, ?, 0, 0, 0)", (int(lastid[0] + 1), nomeProduto, nomeSupplier, unitsPrice, unitsInStock))
-        connection.commit()
+        self.connection.commit()
+        self.disconnect()
 
-    def delete_product(self, key):
-        connection = sqlite3.connect(r'C:\Users\RandomPenguin\Desktop\CRSI\PII\TPPII\db\Northwind.sqlite')
-        cursor = connection.cursor()
-        
-        cursor.execute("DELETE FROM Product WHERE Id=?", (key,))
-        connection.commit()
+
+
+    def delete_product(self, key): 
+        self.connect()
+
+        self.cursor.execute("DELETE FROM Product WHERE Id=?", (key,))
+        self.connection.commit()
+        self.disconnect()
+
+
 
     def update_product(self, productName, supplierName, unit_price, units_in_stock, key): #DONE
-        connection = sqlite3.connect(r'C:\Users\RandomPenguin\Desktop\CRSI\PII\TPPII\db\Northwind.sqlite')
-        cursor = connection.cursor()
+        self.connect()
 
-        cursor.execute("UPDATE Product SET ProductName=?, SupplierId=?, UnitPrice=?, UnitsInStock=? WHERE Id=?", (productName, supplierName, unit_price, units_in_stock, key))
-        connection.commit()   
+        self.cursor.execute("UPDATE Product SET ProductName=?, SupplierId=?, UnitPrice=?, UnitsInStock=? WHERE Id=?", \
+         (productName, supplierName, unit_price, units_in_stock, key))
+        self.connection.commit()
+        self.disconnect()   
+
+
 
     def get_productName(self, key):
-        connection = sqlite3.connect(r'C:\Users\RandomPenguin\Desktop\CRSI\PII\TPPII\db\Northwind.sqlite')
-        cursor = connection.cursor()
+        self.connect()
 
-        cursor.execute('SELECT ProductName FROM Product WHERE Id=?', (key,))
-        productName, = cursor.fetchall()
+        self.cursor.execute('SELECT ProductName FROM Product WHERE Id=?', (key,))
+        productName, = self.cursor.fetchall()
+
+        self.disconnect()
         return productName[0]
 
-    def get_product_unitPrice(self, key):
-        connection = sqlite3.connect(r'C:\Users\RandomPenguin\Desktop\CRSI\PII\TPPII\db\Northwind.sqlite')
-        cursor = connection.cursor()
 
-        cursor.execute('SELECT UnitPrice FROM Product WHERE Id=?', (key,))
-        unitPrice, = cursor.fetchall()
+
+    def get_product_unitPrice(self, key):
+        self.connect()
+
+        self.cursor.execute('SELECT UnitPrice FROM Product WHERE Id=?', (key,))
+        unitPrice, = self.cursor.fetchall()
+
+        self.disconnect()
         return unitPrice[0]
 
-    def get_product_unitsInStock(self, key):
-        connection = sqlite3.connect(r'C:\Users\RandomPenguin\Desktop\CRSI\PII\TPPII\db\Northwind.sqlite')
-        cursor = connection.cursor()
 
-        cursor.execute('SELECT UnitsInStock FROM Product WHERE Id=?', (key,))
-        unitsInStock, = cursor.fetchall()
+
+    def get_product_unitsInStock(self, key):
+        self.connect()
+
+        self.cursor.execute('SELECT UnitsInStock FROM Product WHERE Id=?', (key,))
+        unitsInStock, = self.cursor.fetchall()
+
+        self.disconnect()
         return unitsInStock[0]
 
-    def get_total_without_taxes(self, key):
-        connection = sqlite3.connect(r'C:\Users\RandomPenguin\Desktop\CRSI\PII\TPPII\db\Northwind.sqlite')
-        cursor = connection.cursor()
 
-        cursor.execute('SELECT UnitPrice FROM Product WHERE Id=?', (key,))
-        unitPrice, = cursor.fetchall()
+
+    def get_total_without_taxes(self, key):
+        self.connect()
+
+        self.cursor.execute('SELECT UnitPrice FROM Product WHERE Id=?', (key,))
+        unitPrice, = self.cursor.fetchall()
         
-        cursor.execute('SELECT UnitsInStock FROM Product WHERE Id=?', (key,))
-        unitsInStock, = cursor.fetchall()
+        self.cursor.execute('SELECT UnitsInStock FROM Product WHERE Id=?', (key,))
+        unitsInStock, = self.cursor.fetchall()
     
         total = float(unitPrice[0]) * float(unitsInStock[0])
+        
+        self.disconnect()
         return total
+
+
 
     def get_total_including_taxes(self, key, tax):
-        products = Product()
-        total = (products.get_total_without_taxes(key) * (1 + tax / 100))
+        self.connect()
+
+        total = (self.get_total_without_taxes(key) * (1 + tax / 100))
+
+        self.disconnect()
         return total
 
-    def get_total_quantity(self, key):
-        connection = sqlite3.connect(r'C:\Users\RandomPenguin\Desktop\CRSI\PII\TPPII\db\Northwind.sqlite')
-        cursor = connection.cursor()
 
-        cursor.execute('SELECT COUNT(Productid) FROM OrderDetail WHERE productid=?', (key,))
-        quantity, = cursor.fetchall()
+
+    def get_total_quantity(self, key):
+        self.connect()
+
+        self.cursor.execute('SELECT SUM(quantity) FROM OrderDetail WHERE productid=?', (key,))
+        quantity, = self.cursor.fetchall()
+
+        self.disconnect()
         return quantity[0]
         

@@ -15,6 +15,7 @@ class NameForm(forms.Form):
     unit_price = forms.DecimalField(label='UnitPrice', decimal_places=2) 
     units_in_stock = forms.IntegerField(label='UnitsInStock')  
 
+
 def index(request): #DONE 
     product = Product()
     
@@ -24,6 +25,8 @@ def index(request): #DONE
     t = get_template('index.html')
     html = t.render({'suppliers': productDetails}) 
     return HttpResponse(html)
+
+
 
 def read(request, key): #DONE
     product = Product()
@@ -42,10 +45,13 @@ def read(request, key): #DONE
         stock_at_0 = False
 
     #do not change the lines bellow
+    #tambem foi passado o stock_at_0
     t = get_template('read.html')
     html = t.render({'id':key,'name':productName,'supplier':supplierName, \
     'unit_price':unitPrice, 'units_in_stock':unitsInStock, 'stock_at_0':stock_at_0}) 
     return HttpResponse(html)
+
+
 
 def create(request): #DONE
     if request.method == 'POST':
@@ -68,6 +74,8 @@ def create(request): #DONE
     #do not change the line bellow
     return render(request, 'create.html', {'suppliers': allSuppliers})
 
+
+
 def delete(request, key, template_name='delete.html'): #DONE
     if request.method=='POST':
         product = Product()
@@ -78,6 +86,8 @@ def delete(request, key, template_name='delete.html'): #DONE
 
     #do not change the line bellow
     return render(request, template_name)
+
+
 
 def update(request, key, template_name='update.html'): #DONE
     product = Product()
@@ -112,6 +122,8 @@ def update(request, key, template_name='update.html'): #DONE
     return render(request, template_name, {'supplierName': supplierName, 
     'id':key,'productName': productName,'suppliers': allSuppliers,'unit_price':unitPrice, 'units_in_stock':unitsInStock})
     
+
+
 def statistics(request, key): #DONE   
     tax = 23
 
@@ -132,7 +144,7 @@ def statistics(request, key): #DONE
         stock_at_0 = False
     
     #do not change the lines bellow
-    #Foi tambem passado a variavel stock_at_0
+    #Foi tambem passada a variavel stock_at_0
     t = get_template('statistics.html')
     html = t.render({'name':productName, 'total_without_taxes':totalWithoutTaxes, \
     'total_with_taxes':totalWithTaxes, 'total_quantity':totalQuantity, 'tax':tax, 'stock_at_0':stock_at_0}) 
