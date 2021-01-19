@@ -65,6 +65,11 @@ def create(request): #DONE
             units_in_stock = form.cleaned_data['units_in_stock']
 
             product.create_product(productN, supplierN, unit_price, units_in_stock)
+        
+        #asdasdasdas
+        else:
+            return render(request, 'create.html', {'invalid_form': True})
+
         #do not change the line bellow
         return redirect('index')
     
@@ -77,15 +82,16 @@ def create(request): #DONE
 
 
 def delete(request, key, template_name='delete.html'): #DONE
+    product = Product()
     if request.method=='POST':
-        product = Product()
         product.delete_product(key)
 
         #do not change the line bellow
         return redirect('index')
 
     #do not change the line bellow
-    return render(request, template_name)
+    name = product.get_productName(key)
+    return render(request, template_name, {'productName': name})
 
 
 
@@ -96,19 +102,19 @@ def update(request, key, template_name='update.html'): #DONE
     if request.method == 'POST':
         form = NameForm(request.POST)
         if form.is_valid():
-            try:
-                productName = form.cleaned_data['product']
-                supplierName = form.cleaned_data['supplier']
-                unit_price = form.cleaned_data['unit_price']
-                units_in_stock = form.cleaned_data['units_in_stock']
-            #Alguma variavel foi do tipo errado
-            except KeyError:
-                return render(request, template_name, {'invalid_form': True})
-
+            productName = form.cleaned_data['product']
+            supplierName = form.cleaned_data['supplier']
+            unit_price = form.cleaned_data['unit_price']
+            units_in_stock = form.cleaned_data['units_in_stock']
+            
             product.update_product(productName, supplierName, unit_price, units_in_stock, key)
 
             #do not change the line bellow
             return redirect('index') 
+
+        #Alguma variavel foi do tipo errado
+        else:
+            return render(request, template_name, {'invalid_form': True})
 
     productName = product.get_productName(key)
     supplierName = suppliers.get_supplierName(key)
