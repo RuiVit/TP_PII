@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+<!-- Grupo 1 > 8190479 / 8190448 / 8190460 < -->
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -25,18 +26,22 @@
                     </div>
                     <div class="form-group">
                         <label>Total value in stock without taxes</label>
+                        <!-- Insercao do simbolo do euro -->
                         <p class="form-control-static">{{total_without_taxes}} €</p>
                     </div>
                     <div class="form-group">
                         <label>Total value in stock with taxes</label>
                         <p class="form-control-static">{{total_with_taxes}} €</p>
                     </div>
+                    <!-- Indicacao da taxa atual -->
                     <span class="help-block"> Tax Value = {{tax}} % </span>
                     
                     <div class="form-group">
+                        <!-- Caso o stock seja MAIOR QUE 0, mostrar a quantidade total e nome do produto-->
                         <label>Total quantity ordered</label>
                         <p class="form-control-static">{{total_quantity}} {{name}}(s)</p>
                         
+                        <!-- Caso o stock seja 0, apresentar aviso, NAO mostrando a quantidade total e nome -->
                         {% if stock_at_0 %}
                         <label>Total quantity ordered</label>
                         <span class="help-block" style="color: darkred;"> Stock is at 0</span>

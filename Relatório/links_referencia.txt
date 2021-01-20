@@ -1,0 +1,7 @@
+https://www.djangoproject.com/
+https://en.wikipedia.org/wiki/Django_(web_framework)
+https://hackr.io/blog/what-is-frameworks
+https://en.wikipedia.org/wiki/SQL
+https://code.visualstudio.com/docs/supporting/faq
+https://docs.python.org/3/tutorial/venv.html
+https://omanualdofreelancer.com/diferenca-chave-primaria-e-chave-estrangeira/
