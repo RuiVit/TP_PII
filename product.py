@@ -116,12 +116,9 @@ class Product:
 
     # calcular o total COM taxas
     def get_total_including_taxes(self, key, tax):
-        self.connect()
-
         # valor total SEM taxas multiplicando pela taxa em percentagem
         total = (self.get_total_without_taxes(key) * (1 + tax / 100))
 
-        self.disconnect()
         return total
 
 
@@ -134,4 +131,6 @@ class Product:
 
         self.disconnect()
         return quantity[0]
-        
+
+
+    
